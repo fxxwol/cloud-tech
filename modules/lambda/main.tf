@@ -1,16 +1,12 @@
-# resource "aws_iam_role" "lambda_role" {
-#   assume_role_policy = data.aws_iam_policy_document.AWSLambdaTrustPolicy.json
-#   name               = "${var.function_name}-iam-role-lambda"
-# }
+resource "aws_iam_role" "iam_for_lambda" {
+  name               = "${var.function_name}-iam-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
 
-# resource "aws_iam_role_policy_attachment" "iam_role_lambda_basic_execution" {
-#   role       = aws_iam_role.lambda_role.name
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-# }
-
-# resource "aws_lambda_function" "api" {
-#   filename      = var.lambda_zip
-#   function_name = var.function
-#   role          = aws_iam_role.lambda_role.arn
-#   handler       = var.handler
-# }
+resource "aws_lambda_function" "this" {
+  function_name = var.function_name
+  filename      = "lambda_function.zip"
+  role          = aws_iam_role.iam_for_lambda.arn
+  handler       = "index.handler"
+  runtime       = "nodejs18.x"
+}

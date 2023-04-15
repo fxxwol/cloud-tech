@@ -3,4 +3,5 @@ module "label" {
   namespace   = var.namespace
   environment = var.environment
   delimiter   = var.delimiter
+  context     = var.context
 }

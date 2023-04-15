@@ -8,16 +8,9 @@ module "dynamo_db_authors" {
   table_name = "authors"
 }
 
-# module "lambda_api" {
-#   source = "../modules/lambda-api"
+module "lambda" {
+  source = "./modules/lambda"
 
-#   function_name = module.naming.id
-#   handler       = "index.handler"
-#   lambda_zip    = "${path.module}../lambda-api.zip"
-#   context       = module.naming.context
-# }
-
-# resource "aws_iam_role_policy_attachment" "test-attach" {
-#   role       = aws_iam_role.role.name
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-# }
+  function_name = "function"
+  filename = var.function_filename
+}
